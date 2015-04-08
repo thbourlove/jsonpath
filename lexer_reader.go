@@ -71,6 +71,32 @@ looper:
 	return nil
 }
 
+func (l *readerLexer) takeDigits() {
+	if l.nextByte != noValue {
+		if l.nextByte >= '0' && l.nextByte <= '9' {
+			l.lexeme.WriteByte(byte(l.nextByte))
+			l.nextByte = noValue
+		} else {
+			return
+		}
+	}
+
+	for {
+		r, err := l.bufInput.ReadByte()
+		if err == io.EOF {
+			l.nextByte = eof
+			break
+		}
+		l.nextByte = int(r)
+
+		if r >= '0' && r <= '9' {
+			l.lexeme.WriteByte(r)
+		} else {
+			break
+		}
+	}
+}
+
 func (l *readerLexer) peek() int {
 	if l.nextByte != noValue {
 		return l.nextByte

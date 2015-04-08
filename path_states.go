@@ -118,7 +118,7 @@ func lexPathBracketOpen(l lexer, state *intStack) stateFn {
 		return lexPathBracketClose
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 		l.take()
-		takeDigits(l)
+		l.takeDigits()
 		l.emit(pathIndex)
 		return lexPathIndexRange
 	case eof:
@@ -184,7 +184,7 @@ func lexPathIndexRangeSecond(l lexer, state *intStack) stateFn {
 	cur := l.peek()
 	switch cur {
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-		takeDigits(l)
+		l.takeDigits()
 		l.emit(pathIndex)
 		return lexPathBracketClose
 	case ']':

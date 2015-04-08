@@ -67,6 +67,17 @@ looper:
 	return nil
 }
 
+func (l *sliceLexer) takeDigits() {
+	for {
+		d := l.peek()
+		if d >= '0' && d <= '9' {
+			l.pos++
+		} else {
+			break
+		}
+	}
+}
+
 func (l *sliceLexer) peek() int {
 	if int(l.pos) >= len(l.input) {
 		return eof

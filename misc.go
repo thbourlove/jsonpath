@@ -18,9 +18,9 @@ func takeExponent(l lexer) error {
 		if d := l.peek(); !(d >= '0' && d <= '9') {
 			return fmt.Errorf("Expected digit after numeric sign instead of %#U", d)
 		}
-		takeDigits(l)
+		l.takeDigits()
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-		takeDigits(l)
+		l.takeDigits()
 	default:
 		return fmt.Errorf("Expected digit after 'e' instead of %#U", r)
 	}
@@ -35,9 +35,9 @@ func takeJSONNumeric(l lexer) error {
 		if d := l.peek(); !(d >= '0' && d <= '9') {
 			return fmt.Errorf("Expected digit after dash instead of %#U", d)
 		}
-		takeDigits(l)
+		l.takeDigits()
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-		takeDigits(l)
+		l.takeDigits()
 	default:
 		return fmt.Errorf("Expected digit or dash instead of %#U", cur)
 	}
@@ -51,7 +51,7 @@ func takeJSONNumeric(l lexer) error {
 		if d := l.peek(); !(d >= '0' && d <= '9') {
 			return fmt.Errorf("Expected digit after '.' instead of %#U", d)
 		}
-		takeDigits(l)
+		l.takeDigits()
 		if err := takeExponent(l); err != nil {
 			return err
 		}
@@ -62,17 +62,6 @@ func takeJSONNumeric(l lexer) error {
 	}
 
 	return nil
-}
-
-func takeDigits(l lexer) {
-	for {
-		d := l.peek()
-		if d >= '0' && d <= '9' {
-			l.take()
-		} else {
-			break
-		}
-	}
 }
 
 // Only used at the very beginning of parsing. After that, the emit() function

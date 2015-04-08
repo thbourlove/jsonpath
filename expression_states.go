@@ -233,18 +233,18 @@ func lexOneValue(l lexer, state *intStack) stateFn {
 }
 
 func takeNumeric(l lexer) {
-	takeDigits(l)
+	l.takeDigits()
 	if l.peek() == '.' {
 		l.take()
-		takeDigits(l)
+		l.takeDigits()
 	}
 	if l.peek() == 'e' || l.peek() == 'E' {
 		l.take()
 		if l.peek() == '+' || l.peek() == '-' {
 			l.take()
-			takeDigits(l)
+			l.takeDigits()
 		} else {
-			takeDigits(l)
+			l.takeDigits()
 		}
 	}
 }

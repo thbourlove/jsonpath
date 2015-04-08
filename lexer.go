@@ -26,6 +26,7 @@ type lexer interface {
 	tokenReader
 	take() int
 	takeString() error
+	takeDigits()
 	peek() int
 	emit(int)
 	ignore()
