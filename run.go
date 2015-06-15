@@ -25,3 +25,23 @@ func ParsePaths(pathStrings ...string) ([]*Path, error) {
 	}
 	return paths, nil
 }
+
+func EvalPathInBytes(input []byte, path *Path) (*Eval, error) {
+	lexer := NewSliceLexer(input, JSON)
+	eval := newEvaluation(lexer, path)
+	return eval, nil
+}
+
+func EvalPathInReader(r io.Reader, path *Path) (*Eval, error) {
+	lexer := NewReaderLexer(r, JSON)
+	eval := newEvaluation(lexer, path)
+	return eval, nil
+}
+
+func ParsePath(pathString string) (*Path, error) {
+	path, err := parsePath(pathString)
+	if err != nil {
+		return nil, err
+	}
+	return path, nil
+}
