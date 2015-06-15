@@ -150,7 +150,7 @@ func parsePath(pathString string) (*Path, error) {
 func tokensToOperators(tr tokenReader) (*Path, error) {
 	q := &Path{
 		stringValue:     "",
-		captureEndValue: false,
+		captureEndValue: true,
 		operators:       make([]*operator, 0),
 	}
 	for {
